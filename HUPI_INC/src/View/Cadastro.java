@@ -107,7 +107,7 @@ public class Cadastro extends javax.swing.JFrame {
 
         jLabel8.setText("N°");
 
-        jComboBox_dominio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_dominio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mercado", "Farmácia" }));
 
         jLabel9.setText("Bairro");
 
