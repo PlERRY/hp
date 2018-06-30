@@ -73,9 +73,9 @@ public class Tela_login2 extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(91, 91, 91)
+                .addGap(89, 89, 89)
                 .addComponent(jTextField_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(30, 30, 30)
                 .addComponent(jPasswordField_senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addComponent(jButton1)
@@ -100,10 +100,12 @@ public class Tela_login2 extends javax.swing.JFrame {
         
             usuario = jTextField_usuario.getText();
     try {
-       stmt1 = con1.prepareStatement("Select * from analista where usuario = '" +usuario+"'" );
+       stmt1 = con1.prepareStatement("Select * from analista where id = '" +usuario+"'" );
         rs1 = stmt1.executeQuery();
+        if(rs1.next()){
         senha = rs1.getString("senha");
-            if( senha.equals(jPasswordField_senha.getPassword())){
+            String pass = String.valueOf(jPasswordField_senha.getPassword());
+            if( senha.equals(pass)){
                 Tela_comerciante te = new Tela_comerciante();
                 te.setLocationRelativeTo(null);
                 te.setVisible(true);
@@ -111,6 +113,7 @@ public class Tela_login2 extends javax.swing.JFrame {
             }else{
                 JOptionPane.showMessageDialog(null, "Senha incorreta!");
             }
+        }
         } catch (SQLException ex) {
              JOptionPane.showMessageDialog(null, "Usuario não encontrado!");
         }
