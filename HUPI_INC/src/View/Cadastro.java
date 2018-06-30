@@ -236,7 +236,7 @@ public class Cadastro extends javax.swing.JFrame {
         
         registrar();
         
-        // linha adicionada pelo github
+        // linha adicionada pelo github hugo passou aki
         
         
     }//GEN-LAST:event_jButton_cadastrarActionPerformed
