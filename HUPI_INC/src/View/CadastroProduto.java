@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 
 /**
@@ -18,14 +19,30 @@ import javax.swing.ListSelectionModel;
  * @author Home
  */
 public class CadastroProduto extends javax.swing.JFrame {
-            Connection con1 = Conexao.getConnection();
+             Connection con1 = Conexao.getConnection(); 
             PreparedStatement stmt1 = null ;
             ResultSet rs1 =null ;
-         
-    public CadastroProduto() {
-        initComponents();
-        jLabel_kg.setVisible(false);
+            private String id, dominio, senha, g ;
+         //  private Tela_login2 tl ;
+           
+            // private CadastroProduto cp ;
+         // private  CadastroProduto cp = new CadastroProduto();
+      
+           public void recebe(String recebe){
+            dominio = recebe ;
     }
+public CadastroProduto() {
+        initComponents();
+      
+        jLabel_kg.setVisible(false);
+        jTextField_codigo.setText(dominio);
+      
+        
+    }
+
+//    CadastroProduto(Tela_login2 aThis, boolean b) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,6 +53,7 @@ public class CadastroProduto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -55,6 +73,8 @@ public class CadastroProduto extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_venda = new javax.swing.JTable();
         jLabel_kg = new javax.swing.JLabel();
+        jRadioButton_prod_exist = new javax.swing.JRadioButton();
+        jRadioButton_prod_novo = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -156,6 +176,15 @@ public class CadastroProduto extends javax.swing.JFrame {
         jLabel_kg.setForeground(new java.awt.Color(255, 51, 51));
         jLabel_kg.setText("/ kg");
 
+        jRadioButton_prod_exist.setText("Produto existente ");
+
+        jRadioButton_prod_novo.setText("Produto novo");
+        jRadioButton_prod_novo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton_prod_novoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -164,28 +193,35 @@ public class CadastroProduto extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jRadioButton_KG)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButton_unidade))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jRadioButton_KG)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jRadioButton_unidade))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jTextField_preco, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(1, 1, 1)
+                                        .addComponent(jLabel_kg)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton_salvar))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jTextField_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton_preencher))
+                                    .addComponent(jTextField_desc, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField_preco, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(1, 1, 1)
-                                .addComponent(jLabel_kg)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton_salvar))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton_preencher))
-                            .addComponent(jTextField_desc, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(14, 14, 14)
+                                .addComponent(jRadioButton_prod_exist)
+                                .addGap(18, 18, 18)
+                                .addComponent(jRadioButton_prod_novo))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -213,7 +249,11 @@ public class CadastroProduto extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton_prod_exist)
+                    .addComponent(jRadioButton_prod_novo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextField_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,7 +273,7 @@ public class CadastroProduto extends javax.swing.JFrame {
                     .addComponent(jTextField_preco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_salvar)
                     .addComponent(jLabel_kg))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -274,6 +314,8 @@ public class CadastroProduto extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(CadastroProduto.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
+                
     }//GEN-LAST:event_jButton_preencherActionPerformed
 
     private void jTextField_descActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_descActionPerformed
@@ -301,7 +343,29 @@ public class CadastroProduto extends javax.swing.JFrame {
     private void jTextField_precoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_precoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_precoActionPerformed
+ public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDominio() {
+        return dominio;
+    }
+
+    public void setDominio(String dominio) {
+        this.dominio = dominio;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
     public void PreencherTabela() {
         
     
@@ -379,6 +443,14 @@ public class CadastroProduto extends javax.swing.JFrame {
              
     }//GEN-LAST:event_jTextField_desc_pesqKeyReleased
 
+    private void jRadioButton_prod_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_prod_novoActionPerformed
+        
+        if(jRadioButton_prod_novo.isSelected()){
+            
+        }
+        
+    }//GEN-LAST:event_jRadioButton_prod_novoActionPerformed
+
   public void pesq() throws SQLException{
              stmt1 = con1.prepareStatement("select * from lista WHERE id = '"+ jTextField_codigo.getText().trim() +"'");
              rs1 = stmt1.executeQuery(); 
@@ -405,6 +477,7 @@ public class CadastroProduto extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+      
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -437,6 +510,7 @@ public class CadastroProduto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton_buscar;
     private javax.swing.JButton jButton_preencher;
     private javax.swing.JButton jButton_salvar;
@@ -448,6 +522,8 @@ public class CadastroProduto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_kg;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton_KG;
+    private javax.swing.JRadioButton jRadioButton_prod_exist;
+    private javax.swing.JRadioButton jRadioButton_prod_novo;
     private javax.swing.JRadioButton jRadioButton_unidade;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

@@ -6,10 +6,12 @@
 package View;
 
 import Banco.Conexao;
+import Model.Analista;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,19 +19,48 @@ import javax.swing.JOptionPane;
  * @author HUGO
  */
 public class Tela_login2 extends javax.swing.JFrame {
-    
-    
-    
-     private String usuario, senha ;
+  
+     private String usuario, senha, dominio ;
        Connection con1 = Conexao.getConnection();
             PreparedStatement stmt1 = null ;
             ResultSet rs1 =null ;
+           private Tela_login2 tl ;
+            CadastroProduto cp = new CadastroProduto();
+          // private Tela_comerciante tc = new Tela_comerciante();
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getDominio() {
+        return dominio;
+    }
+
+    public void setDominio(String dominio) {
+        this.dominio = dominio;
+    }
+           
+          // private CadastroProduto cp ;
+         //private tl = new Tela_login2();
     /**
      * Creates new form Tela_login2
      */
     public Tela_login2() {
+        
         initComponents();
+       // this.cp = new CadastroProduto();
     }
 
     /**
@@ -104,12 +135,22 @@ public class Tela_login2 extends javax.swing.JFrame {
         rs1 = stmt1.executeQuery();
         if(rs1.next()){
         senha = rs1.getString("senha");
+        dominio = rs1.getString("dominio");
             String pass = String.valueOf(jPasswordField_senha.getPassword());
             if( senha.equals(pass)){
+                this.setUsuario(usuario);
+                this.setSenha(senha);
+                this.setDominio(dominio);
+                
                 Tela_comerciante te = new Tela_comerciante();
+                te.recebe(dominio);
                 te.setLocationRelativeTo(null);
                 te.setVisible(true);
                 dispose();
+            
+            
+//                
+//            
             }else{
                 JOptionPane.showMessageDialog(null, "Senha incorreta!");
             }
@@ -120,10 +161,12 @@ public class Tela_login2 extends javax.swing.JFrame {
         usuario = senha = ""; 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+      
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
