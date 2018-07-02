@@ -5,17 +5,44 @@
  */
 package View;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author HUGO
  */
 public class Tela_comerciante extends javax.swing.JFrame {
+    private String dom, j ;
+    private Tela_login2 tl = new Tela_login2();
+    
+    
+    public String  recebe(String recebe){
+           //JOptionPane.showMessageDialog(null,recebe );
+           dom = recebe;
+           return recebe ;
+          
+           //System.out.println(dom);
+    }
+//      public void recebe(String recebe){
+//            
+//    }
+    public String getDom() {
+        return dom;
+    }
 
+    public void setDom(String dom) {
+        this.dom = dom;
+    }
     /**
      * Creates new form Tela_comerciante
      */
     public Tela_comerciante() {
+        
         initComponents();
+        System.out.println(dom);
+        System.out.println(this.dom);
+      
+      
     }
 
     /**
@@ -95,6 +122,7 @@ public class Tela_comerciante extends javax.swing.JFrame {
 
     private void jButton_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cadastrarActionPerformed
         CadastroProduto cad = new CadastroProduto();
+        cad.recebe(dom);
         cad.setLocationRelativeTo(null);
         cad.setVisible(true);
         dispose();
@@ -119,6 +147,7 @@ public class Tela_comerciante extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+       // CadastroProduto cp = new CadastroProduto();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
