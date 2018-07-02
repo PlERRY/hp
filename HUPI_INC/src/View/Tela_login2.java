@@ -25,6 +25,7 @@ public class Tela_login2 extends javax.swing.JFrame {
             PreparedStatement stmt1 = null ;
             ResultSet rs1 =null ;
            private Tela_login2 tl ;
+           
             CadastroProduto cp = new CadastroProduto();
           // private Tela_comerciante tc = new Tela_comerciante();
 
@@ -143,7 +144,8 @@ public class Tela_login2 extends javax.swing.JFrame {
                 this.setDominio(dominio);
                 
                 Tela_comerciante te = new Tela_comerciante();
-                te.recebe(dominio);
+                te.setDom(dominio);
+//                te.recebe(dominio);
                 te.setLocationRelativeTo(null);
                 te.setVisible(true);
                 dispose();

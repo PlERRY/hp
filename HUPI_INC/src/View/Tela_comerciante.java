@@ -14,18 +14,20 @@ import javax.swing.JOptionPane;
 public class Tela_comerciante extends javax.swing.JFrame {
     private String dom, j ;
     private Tela_login2 tl = new Tela_login2();
+    public String teste;
+    Tela_comerciante tc ;
     
-    
-    public String  recebe(String recebe){
-           //JOptionPane.showMessageDialog(null,recebe );
-           dom = recebe;
-           return recebe ;
-          
-           //System.out.println(dom);
-    }
-//      public void recebe(String recebe){
-//            
+//    public void recebe (String recebe){
+//           //JOptionPane.showMessageDialog(null,recebe );
+//        System.out.println("funçao");
+//        System.out.println(recebe);
+//        
+//        System.out.println(this.dom);
+//        System.out.println("-------");
+//        //System.out.println(tc.getDom());
+//   
 //    }
+
     public String getDom() {
         return dom;
     }
@@ -39,8 +41,10 @@ public class Tela_comerciante extends javax.swing.JFrame {
     public Tela_comerciante() {
         
         initComponents();
-        System.out.println(dom);
-        System.out.println(this.dom);
+        //System.out.println("init");
+        //System.out.println(this.dom);
+    ;
+          //JOptionPane.showMessageDialog(null, this.dom );
       
       
     }
@@ -117,7 +121,8 @@ public class Tela_comerciante extends javax.swing.JFrame {
 
     private void jButton_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cadastrarActionPerformed
         CadastroProduto cad = new CadastroProduto();
-        cad.recebe(dom);
+        cad.setDominio(this.dom);
+        cad.recebe(this.dom);
         cad.setLocationRelativeTo(null);
         cad.setVisible(true);
         dispose();

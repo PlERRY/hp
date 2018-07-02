@@ -23,21 +23,28 @@ public class CadastroProduto extends javax.swing.JFrame {
             PreparedStatement stmt1 = null ;
             ResultSet rs1 =null ;
             private String id, dominio, senha, g ;
+            public String teste ;
          //  private Tela_login2 tl ;
            
             // private CadastroProduto cp ;
          // private  CadastroProduto cp = new CadastroProduto();
       
            public void recebe(String recebe){
-            dominio = recebe ;
+               System.out.println("castro produto");
+               System.out.println(recebe); 
+               teste = recebe ;
+               System.out.println(teste);
+               System.out.println(this.dominio);
+               jTextField_desc_pesq.setText(this.dominio);
+                
     }
 public CadastroProduto() {
         initComponents();
       
         jLabel_kg.setVisible(false);
-        jTextField_codigo.setText(dominio);
-      
-        
+    
+       
+       
     }
 
 //    CadastroProduto(Tela_login2 aThis, boolean b) {
@@ -177,6 +184,11 @@ public CadastroProduto() {
         jLabel_kg.setText("/ kg");
 
         jRadioButton_prod_exist.setText("Produto existente ");
+        jRadioButton_prod_exist.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton_prod_existActionPerformed(evt);
+            }
+        });
 
         jRadioButton_prod_novo.setText("Produto novo");
         jRadioButton_prod_novo.addActionListener(new java.awt.event.ActionListener() {
@@ -337,19 +349,17 @@ public CadastroProduto() {
     }//GEN-LAST:event_jRadioButton_unidadeActionPerformed
 
     private void jButton_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_salvarActionPerformed
-        // TODO add your handling code here:
+        
+        if (jRadioButton_prod_exist.isSelected()){
+         
+        }
+        
     }//GEN-LAST:event_jButton_salvarActionPerformed
 
     private void jTextField_precoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_precoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_precoActionPerformed
- public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getDominio() {
         return dominio;
@@ -359,13 +369,7 @@ public CadastroProduto() {
         this.dominio = dominio;
     }
 
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+    
     public void PreencherTabela() {
         
     
@@ -446,10 +450,16 @@ public CadastroProduto() {
     private void jRadioButton_prod_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_prod_novoActionPerformed
         
         if(jRadioButton_prod_novo.isSelected()){
-            
+            jRadioButton_prod_exist.setSelected(false);
         }
         
     }//GEN-LAST:event_jRadioButton_prod_novoActionPerformed
+
+    private void jRadioButton_prod_existActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_prod_existActionPerformed
+         if(jRadioButton_prod_exist.isSelected()){
+            jRadioButton_prod_novo.setSelected(false);
+        }
+    }//GEN-LAST:event_jRadioButton_prod_existActionPerformed
 
   public void pesq() throws SQLException{
              stmt1 = con1.prepareStatement("select * from lista WHERE id = '"+ jTextField_codigo.getText().trim() +"'");

@@ -283,6 +283,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Produto existente "/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton_prod_existActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="jRadioButton_prod_novo">
           <Properties>
