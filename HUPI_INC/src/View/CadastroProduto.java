@@ -3,6 +3,7 @@ package View;
 
 import Banco.Conexao;
 import Controller.ModeloTabela;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,8 +23,11 @@ public class CadastroProduto extends javax.swing.JFrame {
              Connection con1 = Conexao.getConnection(); 
             PreparedStatement stmt1 = null ;
             ResultSet rs1 =null ;
-            private String id, dominio, senha, g ;
+            private String id, descricao, dominio, senha, g, medida, med ;
+            private double preco ;
             public String teste ;
+            
+            
          //  private Tela_login2 tl ;
            
             // private CadastroProduto cp ;
@@ -35,13 +39,16 @@ public class CadastroProduto extends javax.swing.JFrame {
                teste = recebe ;
                System.out.println(teste);
                System.out.println(this.dominio);
-               jTextField_desc_pesq.setText(this.dominio);
+             
                 
     }
 public CadastroProduto() {
         initComponents();
       
         jLabel_kg.setVisible(false);
+        jTextField_desc.setText("palmito 320g");
+        jRadioButton_unidade.setSelected(true);
+        jTextField_preco.setText("4.5");
     
        
        
@@ -349,18 +356,77 @@ public CadastroProduto() {
     }//GEN-LAST:event_jRadioButton_unidadeActionPerformed
 
     private void jButton_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_salvarActionPerformed
+          int count = 0;
+        if(jRadioButton_KG.isSelected())
+           medida = "kg";
+        else
+           medida = "unidade" ;
         
         if (jRadioButton_prod_exist.isSelected()){
-         
-        }
-        
+           
+        }else{
+            try {
+                stmt1 = con1.prepareStatement("select id , count(id) as total, descricao, preco, medida from lista where id = '"+id+"'");
+                rs1 = stmt1.executeQuery();
+                
+                if(rs1.next()){
+                  count = rs1.getInt("total");
+                  id = String.valueOf(rs1.getInt("id"));
+                  descricao = rs1.getString("descricao");
+                  preco = rs1.getDouble("preco");
+                  med = rs1.getString("medida");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(CadastroProduto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            inserir(medida, count);
+        }  
     }//GEN-LAST:event_jButton_salvarActionPerformed
 
     private void jTextField_precoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_precoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_precoActionPerformed
 
+    public void inserir(String medida, int count){
+       id = jTextField_codigo.getText() ; 
+          
+            
+            
+            
+              
+            if (count == 0 && jRadioButton_prod_novo.isSelected()){ // Inserir um produto novo na base
+            try {
+                
+                
+                stmt1 = con1.prepareStatement("insert into lista (descricao,preco,medida) values (?,?,?)");
+                stmt1.setString(1, jTextField_desc.getText());
+                stmt1.setDouble(2, Double.parseDouble(jTextField_preco.getText()));
+                stmt1.setString(3, medida);
+               stmt1.execute();
+            } catch (SQLException ex) {
+                Logger.getLogger(CadastroProduto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           try {
+               String dominio = this.dominio ;
+               stmt1 = con1.prepareStatement("insert into "+dominio+" (id,descricao,preco,medida) select id, descricao,preco,medida From lista Where id = (Select id from lista where descricao = '"+jTextField_desc.getText()+"')");
+               JOptionPane.showMessageDialog(null, "produto inserido com sucesso.");
 
+                stmt1.execute();
+           } catch (SQLException ex) {
+               Logger.getLogger(CadastroProduto.class.getName()).log(Level.SEVERE, null, ex);
+           }
+           
+            
+            
+//            }else{ // inserir um produto apenas na tabela do comerciante
+//              jTextField_codigo.setText(String.valueOf(id));
+//               jTextField_desc.setText(descricao);
+                 
+            }
+         
+    }
     public String getDominio() {
         return dominio;
     }
@@ -451,6 +517,8 @@ public CadastroProduto() {
         
         if(jRadioButton_prod_novo.isSelected()){
             jRadioButton_prod_exist.setSelected(false);
+            jTextField_codigo.setEnabled(false);
+            jButton_preencher.setEnabled(false);
         }
         
     }//GEN-LAST:event_jRadioButton_prod_novoActionPerformed
@@ -458,6 +526,8 @@ public CadastroProduto() {
     private void jRadioButton_prod_existActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_prod_existActionPerformed
          if(jRadioButton_prod_exist.isSelected()){
             jRadioButton_prod_novo.setSelected(false);
+            jTextField_codigo.setEnabled(true);
+              jButton_preencher.setEnabled(true);
         }
     }//GEN-LAST:event_jRadioButton_prod_existActionPerformed
 

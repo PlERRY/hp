@@ -61,7 +61,8 @@ public class Tela_login2 extends javax.swing.JFrame {
     public Tela_login2() {
         
         initComponents();
-       // this.cp = new CadastroProduto();
+        jTextField_usuario.setText("pierry");
+        jPasswordField_senha.setText("123");
     }
 
     /**
