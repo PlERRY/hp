@@ -73,6 +73,11 @@ public class Tela_comerciante extends javax.swing.JFrame {
         });
 
         jButton2.setText("gerenciar conta");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton_Atualizar.setText("Atualizar produto");
         jButton_Atualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -137,6 +142,11 @@ public class Tela_comerciante extends javax.swing.JFrame {
         atu.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton_AtualizarActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
