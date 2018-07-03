@@ -4,6 +4,7 @@ package View;
 import Banco.Conexao;
 import Controller.ModeloTabela;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javafx.scene.text.Font.font;
+import static javafx.scene.text.Font.font;
+import static javafx.scene.text.Font.font;
+import static javafx.scene.text.Font.font;
+import static javafx.scene.text.Font.font;
+import static javafx.scene.text.Font.font;
+import static javafx.scene.text.Font.font;
+import static javafx.scene.text.Font.font;
+import static javafx.scene.text.Font.font;
+import static javafx.scene.text.Font.font;
+import static javafx.scene.text.Font.font;
+import static javafx.scene.text.Font.font;
+import static javafx.scene.text.Font.font;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 
@@ -72,7 +86,6 @@ public CadastroProduto() {
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jTextField_desc_pesq = new javax.swing.JTextField();
-        jButton_buscar = new javax.swing.JButton();
         jTextField_desc = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jRadioButton_KG = new javax.swing.JRadioButton();
@@ -94,6 +107,15 @@ public CadastroProduto() {
 
         jLabel1.setText("Produto");
 
+        jTextField_desc_pesq.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jTextField_desc_pesq.setForeground(new java.awt.Color(153, 153, 153));
+        jTextField_desc_pesq.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField_desc_pesq.setText("Pesquisar produto");
+        jTextField_desc_pesq.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextField_desc_pesqMouseClicked(evt);
+            }
+        });
         jTextField_desc_pesq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_desc_pesqActionPerformed(evt);
@@ -105,13 +127,6 @@ public CadastroProduto() {
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField_desc_pesqKeyReleased(evt);
-            }
-        });
-
-        jButton_buscar.setText("buscar");
-        jButton_buscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_buscarActionPerformed(evt);
             }
         });
 
@@ -180,9 +195,15 @@ public CadastroProduto() {
 
             }
         ));
+        jTable_venda.setCellSelectionEnabled(true);
         jTable_venda.addContainerListener(new java.awt.event.ContainerAdapter() {
             public void componentAdded(java.awt.event.ContainerEvent evt) {
                 jTable_vendaComponentAdded(evt);
+            }
+        });
+        jTable_venda.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_vendaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable_venda);
@@ -211,9 +232,9 @@ public CadastroProduto() {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(23, 23, 23)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel2)
@@ -237,42 +258,41 @@ public CadastroProduto() {
                                         .addComponent(jButton_preencher))
                                     .addComponent(jTextField_desc, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
+                                .addGap(31, 31, 31)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 18, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
                                 .addComponent(jRadioButton_prod_exist)
                                 .addGap(18, 18, 18)
-                                .addComponent(jRadioButton_prod_novo))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton_buscar)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jRadioButton_prod_novo))
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_buscar))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton_prod_exist)
                     .addComponent(jRadioButton_prod_novo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextField_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -319,10 +339,6 @@ public CadastroProduto() {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_desc_pesqActionPerformed
 
-    private void jButton_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_buscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_buscarActionPerformed
-
     private void jTextField_codigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_codigoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_codigoActionPerformed
@@ -357,15 +373,14 @@ public CadastroProduto() {
 
     private void jButton_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_salvarActionPerformed
           int count = 0;
+          id = jTextField_codigo.getText();
+          String dom = this.dominio;
         if(jRadioButton_KG.isSelected())
            medida = "kg";
         else
            medida = "unidade" ;
         
-        if (jRadioButton_prod_exist.isSelected()){
-           
-        }else{
-            try {
+        try {
                 stmt1 = con1.prepareStatement("select id , count(id) as total, descricao, preco, medida from lista where id = '"+id+"'");
                 rs1 = stmt1.executeQuery();
                 
@@ -375,10 +390,37 @@ public CadastroProduto() {
                   descricao = rs1.getString("descricao");
                   preco = rs1.getDouble("preco");
                   med = rs1.getString("medida");
+                    System.out.println(count);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(CadastroProduto.class.getName()).log(Level.SEVERE, null, ex);
             }
+        
+        if (jRadioButton_prod_exist.isSelected()){
+           if(count == 1){
+               jTextField_desc.setText(descricao);
+               if(med.equals("kg"))
+                   jRadioButton_KG.setSelected(true);
+               else
+                   jRadioButton_unidade.setSelected(true);
+               try {
+                
+                stmt1 = con1.prepareStatement("insert into "+dom+" (id,descricao,preco,medida) values (?,?,?,?)");
+                stmt1.setInt(1, Integer.parseInt(id));
+                stmt1.setString(2, jTextField_desc.getText());
+                stmt1.setDouble(3, Double.parseDouble(jTextField_preco.getText()));
+                stmt1.setString(4, medida);
+               stmt1.execute();
+            } catch (SQLException ex) {
+                Logger.getLogger(CadastroProduto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+               
+           }else{
+             JOptionPane.showMessageDialog(null, "Insira corretamente o código do produto já existente na lista global");  
+           }
+            
+        }else{
+            
             
             
             inserir(medida, count);
@@ -391,14 +433,9 @@ public CadastroProduto() {
 
     public void inserir(String medida, int count){
        id = jTextField_codigo.getText() ; 
-          
-            
-            
-            
-              
+           
             if (count == 0 && jRadioButton_prod_novo.isSelected()){ // Inserir um produto novo na base
             try {
-                
                 
                 stmt1 = con1.prepareStatement("insert into lista (descricao,preco,medida) values (?,?,?)");
                 stmt1.setString(1, jTextField_desc.getText());
@@ -415,7 +452,7 @@ public CadastroProduto() {
 
                 stmt1.execute();
            } catch (SQLException ex) {
-               Logger.getLogger(CadastroProduto.class.getName()).log(Level.SEVERE, null, ex);
+              JOptionPane.showMessageDialog(null, "problema ao inserir o prodruto novo "+ ex);
            }
            
             
@@ -531,6 +568,24 @@ public CadastroProduto() {
         }
     }//GEN-LAST:event_jRadioButton_prod_existActionPerformed
 
+    private void jTable_vendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_vendaMouseClicked
+        if (evt.getClickCount() == 2) {
+        int linha = jTable_venda.getSelectedRow();
+      int coluna = linha; // jTable_venda.getSelectedColumn();
+        String valor = String.valueOf(jTable_venda.getValueAt(linha,0));
+        jTextField_codigo.setText(valor);
+        jTextField_desc.setText(String.valueOf(jTable_venda.getValueAt(linha,1)));
+            
+        }
+    }//GEN-LAST:event_jTable_vendaMouseClicked
+
+    private void jTextField_desc_pesqMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_desc_pesqMouseClicked
+      jTextField_desc_pesq.setText("");
+      jTextField_desc_pesq.setFont(new Font("Tahoma", Font.BOLD, 13));
+      jTextField_desc_pesq.setForeground(new java.awt.Color(0, 0, 0));
+      
+    }//GEN-LAST:event_jTextField_desc_pesqMouseClicked
+
   public void pesq() throws SQLException{
              stmt1 = con1.prepareStatement("select * from lista WHERE id = '"+ jTextField_codigo.getText().trim() +"'");
              rs1 = stmt1.executeQuery(); 
@@ -591,7 +646,6 @@ public CadastroProduto() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton_buscar;
     private javax.swing.JButton jButton_preencher;
     private javax.swing.JButton jButton_salvar;
     private javax.swing.JLabel jLabel1;
