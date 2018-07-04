@@ -212,7 +212,7 @@ public class Testebusca extends javax.swing.JFrame {
                  cont=String.valueOf(contador);
                  nome2="estab";
                  nome=nome2+cont;
-                 String estab;
+                
                  
 //                 for(int z=0; z<itensLista.length; z++){
 //                     listaSQL = listaSQL+ String.valueOf(ListaProd.get(z))+",";
@@ -221,11 +221,11 @@ public class Testebusca extends javax.swing.JFrame {
 //                        
 //                 }
 //                 String stab = null;
-//                 for (int x=1; x==2; x++){
+                 for (int x=1; x==3; x++){
 //                    estab = "estab"+String.valueOf(x) ;
                    
                     try {
-                         stmt1 = con1.prepareStatement("Select sum(preco) as total from estab1 where id in ("+listaSQL+")");
+                         stmt1 = con1.prepareStatement("Select sum(preco) as total from "+nome+" where id in ("+listaSQL+")");
                          rs1 = stmt1.executeQuery();
                         if(rs1.next()){
                         preco1 = Float.valueOf(rs1.getString("total"));
@@ -238,10 +238,14 @@ public class Testebusca extends javax.swing.JFrame {
                      } catch (SQLException ex) {
                          Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
                      }
+                 contador=contador+1;
+                 cont=String.valueOf(contador);
+                 nome2="estab";
+                 nome=nome2+cont;
                      
-//                 }
+                 }
                  jTextField_resultado.setText(listaSQL);
-            jTextField_resultado.setText("menor preço: "+String.valueOf(preco2)+" encontrado no estab ");
+                 jTextField_resultado.setText("menor preço: "+String.valueOf(preco2)+" encontrado no estab ");
 
     }//GEN-LAST:event_jButton_buscarActionPerformed
 
