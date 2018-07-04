@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package View;
 
 import Banco.Conexao;
@@ -27,7 +23,7 @@ public class Testebusca extends javax.swing.JFrame {
      Connection con1 = Conexao.getConnection();
             PreparedStatement stmt1 = null ;
             ResultSet rs1 =null ;
-            private String produto,cont,nome,nome2, listaSQL="";
+            private String produto,cont,nome,nome2, listaSQL="", estab1, estab2;
             private float preco1=0,preco2=0, total;
             private int contador=0, itensLista[];
             private ArrayList ListaProd = new ArrayList();
@@ -212,36 +208,62 @@ public class Testebusca extends javax.swing.JFrame {
                  cont=String.valueOf(contador);
                  nome2="estab";
                  nome=nome2+cont;
-                 String estab;
+      
                  
 //                 for(int z=0; z<itensLista.length; z++){
 //                     listaSQL = listaSQL+ String.valueOf(ListaProd.get(z))+",";
 //            //listaSQL = listaSQL.substring(0, listaSQL.length() -1) ;
 //            //System.out.println(listaSQL);
-//                        
+//                       
 //                 }
-//                 String stab = null;
-//                 for (int x=1; x==2; x++){
-//                    estab = "estab"+String.valueOf(x) ;
-                   
+
+                    preco1 =0; preco2 =0;
+                 String estab = null;
+                 for (int x=1; x<=2; x++){
+                      estab = "estab";
+                    estab = estab +x  ;
+                     System.out.println(estab);
                     try {
-                         stmt1 = con1.prepareStatement("Select sum(preco) as total from estab1 where id in ("+listaSQL+")");
+                         stmt1 = con1.prepareStatement("Select sum(preco) as total from "+estab+" where id in ("+listaSQL+")");
                          rs1 = stmt1.executeQuery();
                         if(rs1.next()){
                         preco1 = Float.valueOf(rs1.getString("total"));
-                            System.out.println(String.valueOf(preco1));
-                        if (preco2<preco1){
-                            preco2 = preco1;
-                            //stab = estab ;
-                        }
+                            System.out.println(String.valueOf("preco1: "+preco1));
+                            System.out.println("preco2: "+preco2);
+                            estab1 = estab ;
+                            if ((preco2<preco1) && x==1){
+                               preco2 = preco1; 
+                               estab2 = estab1 ;
+                            System.out.println("*****Dentro do if loop["+x+"]******");
+                            System.out.println(String.valueOf("preco1: "+preco1));
+                            System.out.println("preco2: "+preco2);
+                            System.out.println("**************");
+                            }else if ((preco2 <preco1) && x>1){
+                                preco2= preco2 ;
+                                estab2 = estab2;
+                          
+                            System.out.println("*****Dentro do if loop["+x+"]******");
+                            System.out.println(String.valueOf("preco1: "+preco1));
+                            System.out.println("preco2: "+preco2);
+                            System.out.println("**************");  
+                        }else{
+                                preco2 = preco1;
+                                estab2 = estab1;
+                              
+                                System.out.println("*****Dentro do if loop["+x+"]******");
+                            System.out.println(String.valueOf("preco1: "+preco1));
+                            System.out.println("preco2: "+preco2);
+                            System.out.println("**************"); 
+                            }
                         } 
+                        rs1.close();
                      } catch (SQLException ex) {
                          Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
                      }
                      
-//                 }
+                 }
                  jTextField_resultado.setText(listaSQL);
-            jTextField_resultado.setText("menor preço: "+String.valueOf(preco2)+" encontrado no estab ");
+            jTextField_resultado.setText("menor preço: "+String.valueOf(preco2)+" encontrado no estab "+ estab2);
 
     }//GEN-LAST:event_jButton_buscarActionPerformed
 
