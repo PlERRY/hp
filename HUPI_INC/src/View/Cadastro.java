@@ -108,6 +108,11 @@ public class Cadastro extends javax.swing.JFrame {
         jLabel8.setText("N°");
 
         jComboBox_dominio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mercado", "Farmácia" }));
+        jComboBox_dominio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_dominioActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Bairro");
 
@@ -248,6 +253,10 @@ public class Cadastro extends javax.swing.JFrame {
     private void jTextField_ruaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_ruaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_ruaActionPerformed
+
+    private void jComboBox_dominioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_dominioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_dominioActionPerformed
 
     
     public void registrar(){

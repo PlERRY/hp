@@ -3,6 +3,7 @@ package View;
 
 import Banco.Conexao;
 import Controller.ModeloTabela;
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 
@@ -25,13 +27,18 @@ public class Testebusca extends javax.swing.JFrame {
             ResultSet rs1 =null ;
             private String produto,cont,nome,nome2, listaSQL="", estab1, estab2;
             private float preco1=0,preco2=0, total;
-            private int contador=0, itensLista[];
+            private int contador=0, itensLista[],conta=0,idbairro=0;
             private ArrayList ListaProd = new ArrayList();
+            
+            
+            private String estado,cidade,bairro;
+            
     /**
      * Creates new form Testebusca
      */
     public Testebusca() {
         initComponents();
+        
     }
 
     /**
@@ -44,8 +51,6 @@ public class Testebusca extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField_buscar = new javax.swing.JTextField();
         jButton_buscar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jTextField_resultado = new javax.swing.JTextField();
@@ -53,17 +58,11 @@ public class Testebusca extends javax.swing.JFrame {
         jTable_venda = new javax.swing.JTable();
         jTextField_desc_pesq = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jButton_teste = new javax.swing.JButton();
+        jComboBox_estado = new javax.swing.JComboBox<>();
+        jComboBox_cidade = new javax.swing.JComboBox<>();
+        jComboBox_bairro = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("enviar pro banco");
-
-        jTextField_buscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_buscarActionPerformed(evt);
-            }
-        });
 
         jButton_buscar.setText("buscar");
         jButton_buscar.addActionListener(new java.awt.event.ActionListener() {
@@ -123,10 +122,20 @@ public class Testebusca extends javax.swing.JFrame {
 
         jLabel3.setText("Produto");
 
-        jButton_teste.setText("teste");
-        jButton_teste.addActionListener(new java.awt.event.ActionListener() {
+        jComboBox_estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RJ", "SP" }));
+        jComboBox_estado.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_estadoItemStateChanged(evt);
+            }
+        });
+        jComboBox_estado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox_estadoMouseClicked(evt);
+            }
+        });
+        jComboBox_estado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_testeActionPerformed(evt);
+                jComboBox_estadoActionPerformed(evt);
             }
         });
 
@@ -137,51 +146,51 @@ public class Testebusca extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(41, 41, 41)
-                                        .addComponent(jButton_buscar))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton_teste))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
+                        .addGap(32, 32, 32)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField_resultado, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 77, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTextField_resultado)
+                                .addGap(18, 18, 18))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addGap(27, 27, 27)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBox_cidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox_bairro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox_estado, 0, 50, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton_buscar)))
+                .addGap(55, 55, 55))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_teste))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(61, 61, 61)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_buscar))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jComboBox_estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox_cidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox_bairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField_resultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(87, Short.MAX_VALUE))
+                    .addComponent(jTextField_resultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -192,79 +201,55 @@ public class Testebusca extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_buscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_buscarActionPerformed
-
-    private void jButton_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_buscarActionPerformed
-                 produto = jTextField_buscar.getText();
-                
-                 cont=String.valueOf(contador);
-                 nome2="estab";
-                 nome=nome2+cont;
-
-
-      
-
-                 
-//                 for(int z=0; z<itensLista.length; z++){
-//                     listaSQL = listaSQL+ String.valueOf(ListaProd.get(z))+",";
-//            //listaSQL = listaSQL.substring(0, listaSQL.length() -1) ;
-//            //System.out.println(listaSQL);
-//                       
-//                 }
-
-//                 String stab = null;
-        
-//                    estab = "estab"+String.valueOf(x) ;
-                   
    
-
-                    preco1 =0; preco2 =0;
-                 String estab = null;
-                 for (int x=1; x<=4; x++){
+    private void jButton_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_buscarActionPerformed
+    
+                 
+                 try {
+                         stmt1 = con1.prepareStatement("select count(*)as contador from analista where bairro='"+bairro+"'");
+                         rs1 = stmt1.executeQuery();
+                         if(rs1.next()){
+                         conta =Integer.valueOf(rs1.getString("contador"));                        
+                         }                                     
+                         rs1.close();
+                         } catch (SQLException ex) {
+                         Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
+                         }
+                 
+                 
+                 
+      
+                  listaSQL = listaSQL.substring(0, listaSQL.length() -1) ;
+                  preco1 =0; preco2 =0;
+                  String estab = null;
+                 for (int x=1; x<=conta; x++){
                       estab = "estab";
-                    estab = estab +x  ;
-                     System.out.println(estab);
+                      estab = estab +x  ;
                     try {
                          stmt1 = con1.prepareStatement("Select sum(preco) as total from "+estab+" where id in ("+listaSQL+")");
 
                          rs1 = stmt1.executeQuery();
-                        if(rs1.next()){
-                        preco1 = Float.valueOf(rs1.getString("total"));
-                            System.out.println(String.valueOf("preco1: "+preco1));
-                            System.out.println("preco2: "+preco2);
-                            estab1 = estab ;
+                    if(rs1.next()){
+                               preco1 = Float.valueOf(rs1.getString("total"));
+                         
+                               estab1 = estab ;
                             if ((preco2<preco1) && x==1){
                                preco2 = preco1; 
-                               estab2 = estab1 ;
-                            System.out.println("*****Dentro do if loop["+x+"]******");
-                            System.out.println(String.valueOf("preco1: "+preco1));
-                            System.out.println("preco2: "+preco2);
-                            System.out.println("**************");
+                               estab2 = estab1 ;                    
                             }else if ((preco2 <preco1) && x>1){
-                                preco2= preco2 ;
-                                estab2 = estab2;
-                          
-                            System.out.println("*****Dentro do if loop["+x+"]******");
-                            System.out.println(String.valueOf("preco1: "+preco1));
-                            System.out.println("preco2: "+preco2);
-                            System.out.println("**************");  
-                        }else{
-                                preco2 = preco1;
-                                estab2 = estab1;
-                              
-                                System.out.println("*****Dentro do if loop["+x+"]******");
-                            System.out.println(String.valueOf("preco1: "+preco1));
-                            System.out.println("preco2: "+preco2);
-                            System.out.println("**************"); 
-                            }
+                               preco2= preco2 ;
+                               estab2 = estab2;
+                                                 
+                              }else{
+                               preco2 = preco1;
+                               estab2 = estab1;
+                                           
+                                   }
                         } 
                         rs1.close();
                      } catch (SQLException ex) {
@@ -329,21 +314,41 @@ public class Testebusca extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jTextField_desc_pesqKeyReleased
+ 
+    
+    private void jComboBox_estadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_estadoActionPerformed
+    
+    }//GEN-LAST:event_jComboBox_estadoActionPerformed
 
-    private void jButton_testeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_testeActionPerformed
-      //String lista = listaSQL.substring(0, listaSQL.length() -1) ;
-//      for(int z=0; z<itensLista.length; z++){
-//                     listaSQL = listaSQL+ String.valueOf(itensLista[z])+",";
-//            
-//            //System.out.println(listaSQL);
-//                        
-//                 }
-      listaSQL = listaSQL.substring(0, listaSQL.length() -1) ;
-      jTextField_buscar.setText(listaSQL);
-      
-      
-      
-    }//GEN-LAST:event_jButton_testeActionPerformed
+    private void jComboBox_estadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_estadoMouseClicked
+        
+    
+        
+    }//GEN-LAST:event_jComboBox_estadoMouseClicked
+
+    private void jComboBox_estadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_estadoItemStateChanged
+        // TODO add your handling code here:
+        
+            estado = (String) jComboBox_estado.getSelectedItem();
+        
+            try {
+                         stmt1 = con1.prepareStatement("Select * from analista where estado='"+estado+"'");
+                         rs1 = stmt1.executeQuery();
+                        if(rs1.next()){
+                         cidade =rs1.getString("cidade");
+                         bairro=rs1.getString("bairro");
+                        
+       
+                        }
+                         jComboBox_cidade.addItem(cidade);
+                         jComboBox_bairro.addItem(bairro);
+               
+                         System.out.println(cidade);
+                         rs1.close();
+                     } catch (SQLException ex) {
+                         Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
+                     }
+    }//GEN-LAST:event_jComboBox_estadoItemStateChanged
 
     public void PreencherTabela() {
         
@@ -441,15 +446,19 @@ public class Testebusca extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_buscar;
-    private javax.swing.JButton jButton_teste;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> jComboBox_bairro;
+    private javax.swing.JComboBox<String> jComboBox_cidade;
+    private javax.swing.JComboBox<String> jComboBox_estado;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_venda;
-    private javax.swing.JTextField jTextField_buscar;
     private javax.swing.JTextField jTextField_desc_pesq;
     private javax.swing.JTextField jTextField_resultado;
     // End of variables declaration//GEN-END:variables
+
+
+
+
 }
