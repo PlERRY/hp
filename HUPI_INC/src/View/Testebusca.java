@@ -50,7 +50,7 @@ public class Testebusca extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField_buscar = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jButton_buscar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jTextField_resultado = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -69,10 +69,10 @@ public class Testebusca extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("buscar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton_buscar.setText("buscar");
+        jButton_buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton_buscarActionPerformed(evt);
             }
         });
 
@@ -152,7 +152,7 @@ public class Testebusca extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(41, 41, 41)
-                                        .addComponent(jButton1))))
+                                        .addComponent(jButton_buscar))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -178,7 +178,7 @@ public class Testebusca extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton_buscar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49)
@@ -206,72 +206,44 @@ public class Testebusca extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_buscarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_buscarActionPerformed
                  produto = jTextField_buscar.getText();
                 
                  cont=String.valueOf(contador);
                  nome2="estab";
                  nome=nome2+cont;
-                 int estab=0 ;
+                 String estab;
                  
-                 for(int z=0; z<itensLista.length; z++){
-                     listaSQL = listaSQL+ String.valueOf(ListaProd.get(z))+",";
-            //listaSQL = listaSQL.substring(0, listaSQL.length() -1) ;
-            //System.out.println(listaSQL);
-                        
-                 }
-                
-                 
-                
-//                 for (int x=1; x==2; x++){
-//                    
-//                     try {
-//                         stmt1 = con1.prepareStatement("Select sum(preco) as total from estab"+x+" where id in ("+listaSQL+")");
-//                         rs1 = stmt1.executeQuery();
-//                        if(rs1.next()){
-//                        preco1 = Float.valueOf(rs1.getString("total"));
+//                 for(int z=0; z<itensLista.length; z++){
+//                     listaSQL = listaSQL+ String.valueOf(ListaProd.get(z))+",";
+//            //listaSQL = listaSQL.substring(0, listaSQL.length() -1) ;
+//            //System.out.println(listaSQL);
 //                        
-//                        if (preco2<preco1){
-//                            preco2 = preco1;
-//                            estab = x ;
-//                        }
-//                        } 
-//                     } catch (SQLException ex) {
-//                         Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
-//                     }
-//                     
+//                 }
+//                 String stab = null;
+//                 for (int x=1; x==2; x++){
+//                    estab = "estab"+String.valueOf(x) ;
+                   
+                    try {
+                         stmt1 = con1.prepareStatement("Select sum(preco) as total from estab1 where id in ("+listaSQL+")");
+                         rs1 = stmt1.executeQuery();
+                        if(rs1.next()){
+                        preco1 = Float.valueOf(rs1.getString("total"));
+                            System.out.println(String.valueOf(preco1));
+                        if (preco2<preco1){
+                            preco2 = preco1;
+                            //stab = estab ;
+                        }
+                        } 
+                     } catch (SQLException ex) {
+                         Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
+                     }
+                     
 //                 }
                  jTextField_resultado.setText(listaSQL);
-            //jTextField_resultado.setText("menor preço: "+String.valueOf(preco2)+"encontrado no estab"+String.valueOf(estab));
-//    try {
-//           
-//                        contador++;
-//                        cont=String.valueOf(contador);
-//                        nome2="estab";
-//                        nome=nome2+cont;
-//                       
-//        stmt1 = con1.prepareStatement("Select * from "+nome+" where descricao = '"+produto+"'" );
-//        rs1 = stmt1.executeQuery();
-//        if(rs1.next()){
-//        preco2 = Float.valueOf(rs1.getString("preco"));
-//        }
-//            if( preco1<preco2){
-//             jTextField_resultado.setText(String.valueOf(preco1));
-//                         
-//            }else{
-//               jTextField_resultado.setText("errado"+String.valueOf(preco1=preco2));
-//            }
-//        
-//        } catch (SQLException ex) {
-//             JOptionPane.showMessageDialog(null, "Usuario não encontrado!");
-//        }
-    
-    
-        System.out.println(ListaProd);
-       
-    
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+            jTextField_resultado.setText("menor preço: "+String.valueOf(preco2)+" encontrado no estab ");
+
+    }//GEN-LAST:event_jButton_buscarActionPerformed
 
     private void jTable_vendaComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTable_vendaComponentAdded
         // TODO add your handling code here:
@@ -282,11 +254,12 @@ public class Testebusca extends javax.swing.JFrame {
             int linha = jTable_venda.getSelectedRow();
             int coluna = linha; // jTable_venda.getSelectedColumn();
             String valor = String.valueOf(jTable_venda.getValueAt(linha,0));
-            itensLista[contador] = (Integer.parseInt(valor));
-            
+            ListaProd.add(valor);
+            listaSQL = listaSQL + String.valueOf(ListaProd.get(contador))+",";
+            System.out.println(listaSQL);
             JOptionPane.showMessageDialog(null, "produto adicionado com sucesso");
             
-       
+            contador++ ;
         }
     }//GEN-LAST:event_jTable_vendaMouseClicked
 
@@ -319,13 +292,17 @@ public class Testebusca extends javax.swing.JFrame {
 
     private void jButton_testeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_testeActionPerformed
       //String lista = listaSQL.substring(0, listaSQL.length() -1) ;
-      for(int z=0; z<itensLista.length; z++){
-                     listaSQL = listaSQL+ String.valueOf(itensLista[z])+",";
-            //listaSQL = listaSQL.substring(0, listaSQL.length() -1) ;
-            //System.out.println(listaSQL);
-                        
-                 }
+//      for(int z=0; z<itensLista.length; z++){
+//                     listaSQL = listaSQL+ String.valueOf(itensLista[z])+",";
+//            
+//            //System.out.println(listaSQL);
+//                        
+//                 }
+      listaSQL = listaSQL.substring(0, listaSQL.length() -1) ;
       jTextField_buscar.setText(listaSQL);
+      
+      
+      
     }//GEN-LAST:event_jButton_testeActionPerformed
 
     public void PreencherTabela() {
@@ -423,7 +400,7 @@ public class Testebusca extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton_buscar;
     private javax.swing.JButton jButton_teste;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
