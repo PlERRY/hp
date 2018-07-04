@@ -60,9 +60,8 @@ public CadastroProduto() {
         initComponents();
       
         jLabel_kg.setVisible(false);
-        jTextField_desc.setText("palmito 320g");
         jRadioButton_unidade.setSelected(true);
-        jTextField_preco.setText("4.5");
+
     
        
        
