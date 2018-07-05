@@ -25,10 +25,11 @@ public class Testebusca extends javax.swing.JFrame {
      Connection con1 = Conexao.getConnection();
             PreparedStatement stmt1 = null ;
             ResultSet rs1 =null ;
-            private String produto,cont,nome,nome2, listaSQL="", estab1, estab2;
+            private String produto,cont,nome,nome2, listaSQL="", estab1, estab2,lista2="";
             private float preco1=0,preco2=0, total;
-            private int contador=0, itensLista[],conta=0,idbairro=0;
+            private int contador=0, itensLista[],conta=0,idbairro=0, conta2=0;
             private ArrayList ListaProd = new ArrayList();
+            private ArrayList Lista3 = new ArrayList();
             
             
             private String estado,cidade,bairro;
@@ -61,6 +62,7 @@ public class Testebusca extends javax.swing.JFrame {
         jComboBox_estado = new javax.swing.JComboBox<>();
         jComboBox_cidade = new javax.swing.JComboBox<>();
         jComboBox_bairro = new javax.swing.JComboBox<>();
+        jButton_teste = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,7 +124,7 @@ public class Testebusca extends javax.swing.JFrame {
 
         jLabel3.setText("Produto");
 
-        jComboBox_estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "RJ", "SP" }));
+        jComboBox_estado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estado", "RJ", "SP" }));
         jComboBox_estado.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox_estadoItemStateChanged(evt);
@@ -139,6 +141,13 @@ public class Testebusca extends javax.swing.JFrame {
             }
         });
 
+        jButton_teste.setText("Filtro");
+        jButton_teste.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_testeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -152,22 +161,24 @@ public class Testebusca extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jTextField_resultado)
-                                .addGap(18, 18, 18))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboBox_cidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox_bairro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox_estado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addGap(27, 27, 27)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox_cidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox_bairro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox_estado, 0, 50, Short.MAX_VALUE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton_teste))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(53, 53, 53)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                         .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton_buscar)))
-                .addGap(55, 55, 55))
+                        .addComponent(jButton_buscar)
+                        .addGap(14, 14, 14)))
+                .addGap(41, 41, 41))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,7 +196,9 @@ public class Testebusca extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jComboBox_cidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox_bairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBox_bairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton_teste)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField_resultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,9 +240,9 @@ public class Testebusca extends javax.swing.JFrame {
                   listaSQL = listaSQL.substring(0, listaSQL.length() -1) ;
                   preco1 =0; preco2 =0;
                   String estab = null;
-                 for (int x=1; x<=conta; x++){
+                 for (int x=0; x<=conta-1; x++){
                       estab = "estab";
-                      estab = estab +x  ;
+                      estab = estab +Lista3.get(x) ;
                     try {
                          stmt1 = con1.prepareStatement("Select sum(preco) as total from "+estab+" where id in ("+listaSQL+")");
 
@@ -329,26 +342,59 @@ public class Testebusca extends javax.swing.JFrame {
     private void jComboBox_estadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_estadoItemStateChanged
         // TODO add your handling code here:
         
-            estado = (String) jComboBox_estado.getSelectedItem();
+
+            
+            
         
+    }//GEN-LAST:event_jComboBox_estadoItemStateChanged
+
+    private void jButton_testeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_testeActionPerformed
+            estado = (String) jComboBox_estado.getSelectedItem();
+       
             try {
                          stmt1 = con1.prepareStatement("Select * from analista where estado='"+estado+"'");
                          rs1 = stmt1.executeQuery();
+                         
                         if(rs1.next()){
                          cidade =rs1.getString("cidade");
-                         bairro=rs1.getString("bairro");
-                        
-       
+                         bairro=rs1.getString("bairro");                                       
                         }
-                         jComboBox_cidade.addItem(cidade);
-                         jComboBox_bairro.addItem(bairro);
-               
-                         System.out.println(cidade);
-                         rs1.close();
-                     } catch (SQLException ex) {
+                        // rs1.close();
+                         } catch (SQLException ex) {
                          Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
-                     }
-    }//GEN-LAST:event_jComboBox_estadoItemStateChanged
+                         }
+   //========================================================================================================    
+                        try {
+                         stmt1 = con1.prepareStatement("select count(*)as contador from analista where bairro='"+bairro+"'");
+                         rs1 = stmt1.executeQuery();
+                         if(rs1.next()){
+                         conta2 =Integer.valueOf(rs1.getString("contador"));                        
+                         }                                     
+                         rs1.close();
+                         } catch (SQLException ex) {
+                         Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
+                         }
+   
+   //========================================================================================================
+                        try {
+                         stmt1 = con1.prepareStatement("Select id from analista where bairro='"+bairro+"'");
+                         rs1 = stmt1.executeQuery();
+                         System.out.println(bairro);
+                        while(rs1.next()){
+                         
+                         lista2=rs1.getString("id");
+                         Lista3.add(lista2);
+                        }       
+                         rs1.close();
+                        } catch (SQLException ex) {
+                         Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
+                        }     
+        
+                        
+             
+        
+        
+    }//GEN-LAST:event_jButton_testeActionPerformed
 
     public void PreencherTabela() {
         
@@ -446,6 +492,7 @@ public class Testebusca extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_buscar;
+    private javax.swing.JButton jButton_teste;
     private javax.swing.JComboBox<String> jComboBox_bairro;
     private javax.swing.JComboBox<String> jComboBox_cidade;
     private javax.swing.JComboBox<String> jComboBox_estado;
