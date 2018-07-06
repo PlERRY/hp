@@ -28,14 +28,17 @@ public class Testebusca extends javax.swing.JFrame {
             ResultSet rs1 =null ;
                 private String produto,cont,nome,nome2, listaSQL="", estab1, estab2,lista2="",dominio;
             private float preco1=0,preco2=0, total;
-            private int contador=0, itensLista[],conta=0,idbairro=0, conta2=0;
+            private int contador=0, itensLista[],conta=0,idbairro=0, conta2=0,i=0;
             private ArrayList ListaProd = new ArrayList();
             private ArrayList Lista3 = new ArrayList();
             private ArrayList dados1 = new ArrayList();
             private ArrayList cidade1 = new ArrayList();
+            private ArrayList bairro1 = new ArrayList();
+
+
            
            
-            private String estado,cidade,bairro;
+            private String estado,cidade,bairro,cidadeb;
             
     /**
      * Creates new form Testebusca
@@ -149,8 +152,16 @@ public class Testebusca extends javax.swing.JFrame {
         });
 
         jComboBox_cidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cidade" }));
+<<<<<<< HEAD
+=======
+        jComboBox_cidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_cidadeActionPerformed(evt);
+            }
+        });
+>>>>>>> hugo-b
 
-        jComboBox_bairro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bairro\t", "Redentor\t", "Eng Pedreira" }));
+        jComboBox_bairro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bairro" }));
 
         jButton_teste.setText("Filtro");
         jButton_teste.addActionListener(new java.awt.event.ActionListener() {
@@ -425,6 +436,7 @@ public class Testebusca extends javax.swing.JFrame {
     private void jComboBox_estadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_estadoActionPerformed
 
                             estado = (String) jComboBox_estado.getSelectedItem();
+
                     
                     
        
@@ -438,12 +450,28 @@ public class Testebusca extends javax.swing.JFrame {
                          
                          cidade1.add(cidade);                                       
                         }
-                        
+                         } catch (SQLException ex) {
+                         Logger.getLogger(Testebusca2.class.getName()).log(Level.SEVERE, null, ex);
+                         }
+
+    
+            try {
+                         stmt1 = con1.prepareStatement("Select distinct cidade from analista where estado='"+estado+"'");
+                         rs1 = stmt1.executeQuery();
+                         
+                        while(rs1.next()){
+                            i++;
+                         cidade =rs1.getString("cidade");   
+                         cidade1.add(cidade);                                       
+                        }
+                         
+
                         
                         // rs1.close();
                          } catch (SQLException ex) {
                          Logger.getLogger(Testebusca2.class.getName()).log(Level.SEVERE, null, ex);
                          }
+
             
              try {
                          stmt1 = con1.prepareStatement("select count(*)as contador from analista where estado='"+estado+"'");
@@ -459,6 +487,13 @@ public class Testebusca extends javax.swing.JFrame {
                         for(int x=0;x<=conta2-1;x++)
                         jComboBox_cidade.addItem (String.valueOf( cidade1.get(x)));
         
+
+                        for(int x=0;x<=i-1;x++)
+                        jComboBox_cidade.addItem(String.valueOf(cidade1.get(x)));
+                        
+                        i=0;
+            
+
     }//GEN-LAST:event_jComboBox_estadoActionPerformed
 
     private void jComboBox_estadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_estadoMouseClicked
@@ -548,6 +583,7 @@ public class Testebusca extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTable_listaMouseClicked
 
+
     private void jTable_testeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_testeMouseClicked
 
          if (evt.getClickCount() == 2) {
@@ -569,7 +605,33 @@ public class Testebusca extends javax.swing.JFrame {
              contador-- ;
          }
     }//GEN-LAST:event_jTable_testeMouseClicked
-public void AdicionarTabelaLista(String id, String descricao){
+
+    private void jComboBox_cidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_cidadeActionPerformed
+                               cidadeb = (String) jComboBox_cidade.getSelectedItem();
+    
+            try {
+                         stmt1 = con1.prepareStatement("Select distinct bairro from analista where cidade='"+cidadeb+"'");
+                         rs1 = stmt1.executeQuery();
+                         
+                        while(rs1.next()){
+                            i++;
+                         bairro =rs1.getString("bairro");   
+                         bairro1.add(bairro);                                       
+                        }
+                         
+                        
+                        // rs1.close();
+                         } catch (SQLException ex) {
+                         Logger.getLogger(Testebusca2.class.getName()).log(Level.SEVERE, null, ex);
+                         }
+                        for(int x=0;x<=i-1;x++)
+                        jComboBox_bairro.addItem(String.valueOf(bairro1.get(x)));
+                        
+                        i=0;
+        
+    }//GEN-LAST:event_jComboBox_cidadeActionPerformed
+public void PreencherTabelaLista(String id, String descricao){
+
    
        
         String [] Colunas = new String[]{"Codigo","Descrição"};
