@@ -45,5 +45,12 @@ public class ModeloTabela extends AbstractTableModel{
         Object[] linha = (Object[])getLinhas() .get(numLin);
         return linha[numCol];
     }
+
+    public void removeRow(int selectedRow) {
+        this.removeRow(selectedRow);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+  
     
 }
