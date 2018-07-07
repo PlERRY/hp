@@ -34,7 +34,7 @@ public class Testebusca extends javax.swing.JFrame {
             private ArrayList dados1 = new ArrayList();
             private ArrayList cidade1 = new ArrayList();
             private ArrayList bairro1 = new ArrayList();
-            int i =0; 
+            int i =0, count =1 ; 
            
            
             private String estado,cidade,bairro,cidadeb;
@@ -382,14 +382,27 @@ public class Testebusca extends javax.swing.JFrame {
     
     private void jComboBox_estadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_estadoActionPerformed
 
-                    estado = (String) jComboBox_estado.getSelectedItem();
-    
+                  estado = (String) jComboBox_estado.getSelectedItem();
+                 int index = jComboBox_estado.getSelectedIndex();
+                System.out.println("index estado: "+index);
+//                  if (index > 0 && count >1){ 
+//                  jComboBox_cidade.removeAllItems();
+//                 // jComboBox_cidade.removeItemAt(0);
+                  
+                    
+//                  } 
+                    
+                    
+                 if (index>0){  
+                  
             try {
                          stmt1 = con1.prepareStatement("Select distinct cidade from analista where estado='"+estado+"'");
                          rs1 = stmt1.executeQuery();
-                         
+                        cidade1.clear();
+                        cidade1.add("cidade"); 
+                        System.out.println("cidade1 antes do rs1: "+ cidade1);
                         while(rs1.next()){
-                            i++;
+                            ++i;
                          cidade =rs1.getString("cidade");   
                          cidade1.add(cidade);                                       
                         }
@@ -399,13 +412,16 @@ public class Testebusca extends javax.swing.JFrame {
                          } catch (SQLException ex) {
                          Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
                          }
-                        for(int x=0;x<=i-1;x++)
+                        System.out.println("cidade1 depois do rs1: "+ cidade1);
+                        jComboBox_cidade.removeAllItems() ;
+                        for(int x=0;x<=i;x++){
                         jComboBox_cidade.addItem(String.valueOf(cidade1.get(x)));
-                        
+                            System.out.println("ComboBox_cidade = "+ cidade1.get(x));
+                        }
                         i=0;
-            
+                        //System.out.println("count estado: "+count);
                         
-                        
+                 }                
     }//GEN-LAST:event_jComboBox_estadoActionPerformed
 
     private void jComboBox_estadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_estadoMouseClicked
@@ -415,7 +431,7 @@ public class Testebusca extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox_estadoMouseClicked
 
     private void jComboBox_estadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_estadoItemStateChanged
-       
+    
        
     }//GEN-LAST:event_jComboBox_estadoItemStateChanged
 
@@ -507,13 +523,26 @@ public class Testebusca extends javax.swing.JFrame {
     private void jComboBox_cidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_cidadeActionPerformed
         
                         cidadeb = (String) jComboBox_cidade.getSelectedItem();
-    
+                      int index = jComboBox_cidade.getSelectedIndex();
+//                   //  for(int x=0;x<=i-1;x++)
+//                   System.out.println("index cidade: "+index);
+//                     if( index > 0 && count >1){
+//                         System.out.println("dentro do if cidade");
+//                        jComboBox_bairro.removeAllItems();
+//                        // jComboBox_bairro.removeItemAt(0);
+//                         
+//                   }   
+                    
+                         if (index>0){  
+                    
             try {
                          stmt1 = con1.prepareStatement("Select distinct bairro from analista where cidade='"+cidadeb+"'");
                          rs1 = stmt1.executeQuery();
-                         
+                         bairro1.clear();
+                         bairro1.add("bairro"); 
+                         System.out.println("bairro1 antes do rs1: "+bairro1);
                         while(rs1.next()){
-                            i++;
+                            ++i;
                          bairro =rs1.getString("bairro");   
                          bairro1.add(bairro);                                       
                         }
@@ -523,14 +552,17 @@ public class Testebusca extends javax.swing.JFrame {
                          } catch (SQLException ex) {
                          Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
                          }
-                        for(int x=0;x<=i-1;x++)
+                        System.out.println("bairro1 antes do rs1: "+bairro1);
+                        jComboBox_bairro.removeAllItems();
+                        for(int x=0;x<=i;x++){
                         jComboBox_bairro.addItem(String.valueOf(bairro1.get(x)));
-                        
+                             System.out.println("jComboBox_bairro = "+bairro1.get(x));
+                        }
                         i=0;
         
-        
-        
-        
+                        count++;
+                        System.out.println("count cidade: "+count);
+                         }
     }//GEN-LAST:event_jComboBox_cidadeActionPerformed
 public void PreencherTabelaLista(String id, String descricao){
    
