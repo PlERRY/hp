@@ -13,20 +13,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author HUGO
+ * @author Pierry
  */
 public class Testebusca extends javax.swing.JFrame {
      Connection con1 = Conexao.getConnection();
             PreparedStatement stmt1 = null ;
             ResultSet rs1 =null ;
-                private String produto,cont,nome,nome2, listaSQL="", estab1, estab2,lista2="",dominio;
+                  private String produto,cont,nome,nome2, listaSQL="", estab1, estab2,lista2="",dominio;
             private float preco1=0,preco2=0, total;
             private int contador=0, itensLista[],conta=0,idbairro=0, conta2=0;
             private ArrayList ListaProd = new ArrayList();
@@ -34,8 +34,8 @@ public class Testebusca extends javax.swing.JFrame {
             private ArrayList dados1 = new ArrayList();
             private ArrayList cidade1 = new ArrayList();
             private ArrayList bairro1 = new ArrayList();
+            private ArrayList estabelecimento = new ArrayList();
             int i =0, count =1 ; 
-           
            
             private String estado,cidade,bairro,cidadeb;
             
@@ -44,7 +44,7 @@ public class Testebusca extends javax.swing.JFrame {
      */
     public Testebusca() {
         initComponents();
-        
+        jTextField_resultado.grabFocus();
     }
 
     /**
@@ -67,13 +67,19 @@ public class Testebusca extends javax.swing.JFrame {
         jComboBox_estado = new javax.swing.JComboBox<>();
         jComboBox_cidade = new javax.swing.JComboBox<>();
         jComboBox_bairro = new javax.swing.JComboBox<>();
-        jButton_teste = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable_lista = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable_teste = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(250, 250, 250));
+
+        jButton_buscar.setBackground(new java.awt.Color(0, 102, 255));
+        jButton_buscar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton_buscar.setForeground(new java.awt.Color(255, 255, 255));
         jButton_buscar.setText("buscar");
+        jButton_buscar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton_buscar.setBorderPainted(false);
         jButton_buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_buscarActionPerformed(evt);
@@ -103,8 +109,12 @@ public class Testebusca extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable_vendaMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jTable_vendaMouseEntered(evt);
+            }
         });
         jScrollPane1.setViewportView(jTable_venda);
+        jTable_venda.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         jTextField_desc_pesq.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jTextField_desc_pesq.setForeground(new java.awt.Color(153, 153, 153));
@@ -148,117 +158,106 @@ public class Testebusca extends javax.swing.JFrame {
             }
         });
 
-        jComboBox_cidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "cidade" }));
+        jComboBox_cidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cidade", " " }));
         jComboBox_cidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_cidadeActionPerformed(evt);
             }
         });
 
-        jComboBox_bairro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bairro" }));
+        jComboBox_bairro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bairro\t", " " }));
 
-        jButton_teste.setText("Filtro");
-        jButton_teste.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_testeActionPerformed(evt);
-            }
-        });
-
-        jTable_lista.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_teste.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
+                "Id", "descrição"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
             }
-        ));
-        jTable_lista.setCellSelectionEnabled(true);
-        jTable_lista.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
-                jTable_listaComponentAdded(evt);
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        jTable_lista.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTable_teste.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable_listaMouseClicked(evt);
+                jTable_testeMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(jTable_lista);
-        jTable_lista.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jScrollPane3.setViewportView(jTable_teste);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton_buscar)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jComboBox_estado, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox_cidade, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jComboBox_bairro, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(10, 10, 10)
+                                .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(jComboBox_estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBox_cidade, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBox_bairro, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
                         .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField_resultado, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField_resultado, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(91, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton_teste)
-                .addGap(232, 232, 232))
+                        .addComponent(jButton_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox_estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox_cidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox_bairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(62, 62, 62)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField_desc_pesq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_estado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_cidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_bairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField_resultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2))
-                    .addComponent(jButton_buscar))
-                .addGap(18, 18, 18)
-                .addComponent(jButton_teste)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(47, 47, 47)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField_resultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jButton_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,66 +268,48 @@ public class Testebusca extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
    
     private void jButton_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_buscarActionPerformed
-    
+        int indexCidade, indexEstado, indexBairro;
+            
+            indexEstado = jComboBox_estado.getSelectedIndex();
+            indexCidade = jComboBox_cidade.getSelectedIndex();
+            indexBairro = jComboBox_bairro.getSelectedIndex();
+            
+            
+           String estado, cidade, bairro, sql; 
+           estado = (String) jComboBox_estado.getSelectedItem();
+           cidade = (String) jComboBox_cidade.getSelectedItem();
+           bairro = (String) jComboBox_bairro.getSelectedItem();
+            
+           System.out.println(estado+"["+indexEstado+"]");
+           System.out.println(cidade+"["+indexCidade+"]");
+           System.out.println(bairro+"["+indexBairro+"]");
+            
+           
+           if(indexEstado ==0 && indexCidade ==0 && indexBairro == 0){
+                JOptionPane.showMessageDialog(null, "selecione pelo menos 1 filtro");
+                 System.out.println("dentro do if 1");
+            }    
+            else
+            if(indexEstado >= 1 && indexCidade ==0 && indexBairro == 0){// FAZER BUSCA NO ESTADO TODO
+                System.out.println("dentro do if 2");
+             sql = "estado = '"+estado+"'";
+             
+             pesquisaProduto(sql);
+             
+            }else
+           if(indexEstado >= 1 && indexCidade >= 1 && indexBairro == 0){ //FAZER BUSCA EM UMA CIDADE
+             System.out.println("dentro do if 3");
+               sql = "estado = '"+estado+"' and cidade = '"+cidade+"'";
+            pesquisaProduto(sql);
+               
+           }else
+           if(indexEstado >= 1 && indexCidade >=1 && indexBairro >= 1){ // FAZER BUSCA EM UM BAIRRO
+              System.out.println("dentro do if 4");  
+            sql = "estado = '"+estado+"' and cidade = '"+cidade+"' and bairro = '"+bairro+"'";
+            pesquisaProduto(sql);  
+           } 
                  
-                 try {
-                         stmt1 = con1.prepareStatement("select count(*)as contador from analista where bairro='"+bairro+"'");
-                         rs1 = stmt1.executeQuery();
-                         if(rs1.next()){
-                         conta =Integer.valueOf(rs1.getString("contador"));                        
-                         }                                     
-                         rs1.close();
-                         } catch (SQLException ex) {
-                         Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
-                         }
-                 
-                 
-                 
-      
-                  listaSQL = listaSQL.substring(0, listaSQL.length() -1) ;
-                  preco1 =0; preco2 =0;
-                  String estab = null;
-                 for (int x=0; x<=conta-1; x++){
-                      estab = "estab";
-                      estab = estab +Lista3.get(x) ;
-                    try {
-                         stmt1 = con1.prepareStatement("Select sum(preco) as total from "+estab+" where id in ("+listaSQL+")");
-
-                         rs1 = stmt1.executeQuery();
-                    if(rs1.next()){
-                               preco1 = Float.valueOf(rs1.getString("total"));
-                         
-                               estab1 = estab ;
-                            if ((preco2<preco1) && x==1){
-                               preco2 = preco1; 
-                               estab2 = estab1 ;                    
-                            }else if ((preco2 <preco1) && x>1){
-                               preco2= preco2 ;
-                               estab2 = estab2;
-                                                 
-                              }else{
-                               preco2 = preco1;
-                               estab2 = estab1;
-                                           
-                                   }
-                        } 
-                        rs1.close();
-                     } catch (SQLException ex) {
-                         Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
-                     }
-                 contador=contador+1;
-                 cont=String.valueOf(contador);
-                 nome2="estab";
-                 nome=nome2+cont;
-                     
-                 }
-                 jTextField_resultado.setText(listaSQL);
-
-                 jTextField_resultado.setText("menor preço: "+String.valueOf(preco2)+" encontrado no estab ");
-
-            jTextField_resultado.setText("menor preço: "+String.valueOf(preco2)+" encontrado no estab "+ estab2);
-
-
+       listaSQL = listaSQL+",";
     }//GEN-LAST:event_jButton_buscarActionPerformed
 
     private void jTable_vendaComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTable_vendaComponentAdded
@@ -343,12 +324,27 @@ public class Testebusca extends javax.swing.JFrame {
             ListaProd.add(valor);
             listaSQL = listaSQL + String.valueOf(ListaProd.get(contador))+",";
             System.out.println(listaSQL);
-            JOptionPane.showMessageDialog(null, "produto adicionado com sucesso");
+          
            
             contador++ ;
             String col = String.valueOf(jTable_venda.getValueAt(linha,1)) ;
             String id = String.valueOf(jTable_venda.getValueAt(linha,0)) ;
-            PreencherTabelaLista(id,col);
+           // AdicionarTabelaLista(id,col);
+            
+            DefaultTableModel val = (DefaultTableModel) jTable_teste.getModel();
+            val.addRow(new String[] {id, col});
+            
+            jTable_teste.setModel(val);
+            jTable_teste.getColumnModel().getColumn(0).setPreferredWidth(83);
+            jTable_teste.getColumnModel().getColumn(0).setResizable(false);
+            jTable_teste.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTable_teste.getColumnModel().getColumn(1).setResizable(false);
+   
+     
+        jTable_teste.getTableHeader().setReorderingAllowed(false);
+        jTable_teste.setAutoResizeMode(jTable_teste.AUTO_RESIZE_OFF);
+        jTable_teste.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            
         }
     }//GEN-LAST:event_jTable_vendaMouseClicked
 
@@ -381,8 +377,8 @@ public class Testebusca extends javax.swing.JFrame {
  
     
     private void jComboBox_estadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_estadoActionPerformed
-
-                  estado = (String) jComboBox_estado.getSelectedItem();
+       
+                       estado = (String) jComboBox_estado.getSelectedItem();
                  int index = jComboBox_estado.getSelectedIndex();
                 System.out.println("index estado: "+index);
 //                  if (index > 0 && count >1){ 
@@ -421,7 +417,8 @@ public class Testebusca extends javax.swing.JFrame {
                         i=0;
                         //System.out.println("count estado: "+count);
                         
-                 }                
+                 }             
+  
     }//GEN-LAST:event_jComboBox_estadoActionPerformed
 
     private void jComboBox_estadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_estadoMouseClicked
@@ -431,108 +428,105 @@ public class Testebusca extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox_estadoMouseClicked
 
     private void jComboBox_estadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_estadoItemStateChanged
-    
+        jComboBox_bairro.removeAllItems();
+        jComboBox_bairro.addItem("bairro");
        
     }//GEN-LAST:event_jComboBox_estadoItemStateChanged
 
-    private void jButton_testeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_testeActionPerformed
-            estado = (String) jComboBox_estado.getSelectedItem();
+   public void pesquisaProduto(String SQL){
+       try {
+             listaSQL = listaSQL.substring(0, listaSQL.length() -1) ;
+             stmt1 = con1.prepareStatement("select distinct(dominio) as estab from analista where "+SQL);
+             System.out.println("select distinct(dominio) as estab from analista where "+SQL);
+             System.out.println("listaSQL "+listaSQL);
+             System.out.println("listaProd "+ListaProd);
+             rs1 = stmt1.executeQuery();
+            while(rs1.next()){
+             //conta =Integer.valueOf(rs1.getString("contador"));
+            estabelecimento.add(rs1.getString("estab"));
+             }                                     
+             rs1.close();
+             } catch (SQLException ex) {
+             Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
+             }
+            
        
-            try {
-                         stmt1 = con1.prepareStatement("Select * from analista where estado='"+estado+"'");
-                         rs1 = stmt1.executeQuery();
-                         
-                        if(rs1.next()){
-                         cidade =rs1.getString("cidade");
-                         bairro=rs1.getString("bairro");                                       
-                        }
-                        // rs1.close();
-                         } catch (SQLException ex) {
-                         Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
-                         }
-   //========================================================================================================    
-                        try {
-                         stmt1 = con1.prepareStatement("select count(*)as contador from analista where bairro='"+bairro+"'");
-                         rs1 = stmt1.executeQuery();
-                         if(rs1.next()){
-                         conta2 =Integer.valueOf(rs1.getString("contador"));                        
-                         }                                     
-                         rs1.close();
-                         } catch (SQLException ex) {
-                         Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
-                         }
-   
-   //========================================================================================================
-                        try {
-                         stmt1 = con1.prepareStatement("Select id from analista where bairro='"+bairro+"'");
-                         rs1 = stmt1.executeQuery();
-                         System.out.println(bairro);
-                        while(rs1.next()){
-                         
-                         lista2=rs1.getString("id");
-                         Lista3.add(lista2);
-                        }       
-                         rs1.close();
-                        } catch (SQLException ex) {
-                         Logger.getLogger(Testebusca.class.getName()).log(Level.SEVERE, null, ex);
-                        }     
-        
-                        
+       System.out.println("estabelecimentos:"+estabelecimento+ " tamanho: "+estabelecimento.size());
+                
+          preco1 =0; preco2 =0;
+          String estab = null;
+         for (int x=0; x<estabelecimento.size(); x++){
              
-        
-        
-    }//GEN-LAST:event_jButton_testeActionPerformed
+              estab = (String) estabelecimento.get(x) ;
+              System.out.println("loop ["+x+"] estabelecimento: "+ estabelecimento.get(x));
 
-    private void jTable_listaComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTable_listaComponentAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTable_listaComponentAdded
-//
-//    public void populacombobox(){
-//    
-//        
-//    try{
-//    stmt1 = con1.prepareStatement("Select * from analista where estado='"+estado+"'");
-//    rs1 = stmt1.executeQuery();
-//    }catch(SQLException ex){
-//    
-//    
-//    }
-//    
-//    
-//    
-//    }
-    private void jTable_listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_listaMouseClicked
-        if (evt.getClickCount() == 2) {
-            int linha = jTable_lista.getSelectedRow();
+              try {
+                 stmt1 = con1.prepareStatement("Select sum(preco) as total from "+estab+" where id in ("+listaSQL+")");
+                 rs1 = stmt1.executeQuery();
+            if(rs1.next()){
+                       
+                       preco1 = (rs1.getFloat("total"));
+                        
+                       estab1 = estab ;
+            System.out.println("dentro do rs1.next() loop="+x);
+            System.out.println(" valor pego= "+preco1+" menor valor: "+preco2);
+            System.out.println("*****************************************");
+                    if((preco2<preco1) && x==0){
+                       preco2 = preco1; 
+                       estab2 = estab1 ;                    
+                  
+                    }if((preco2 >preco1) && (x>=1) && (preco1 > 0)){
+                       preco2= preco1 ;
+                       estab2 = estab1;
+
+                } 
+                    
+            }     
+                rs1.close();
+             } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex);
+              
+             }
+         contador=contador+1;
+         cont=String.valueOf(contador);
+         nome2="estab";
+         nome=nome2+cont;
+
+         }
+
+            jTextField_resultado.setText("menor preço: "+String.valueOf(preco2)+" encontrado no estab "+ estab2);
+   }
+    
+    
+    private void jTable_testeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_testeMouseClicked
+
+         if (evt.getClickCount() == 2) {
+             int linha = jTable_teste.getSelectedRow();
             int coluna = linha; // jTable_venda.getSelectedColumn();
-            System.out.println(ListaProd);
-            String valor = String.valueOf(jTable_venda.getValueAt(linha,0));
-           
-            for(int x=0; x<ListaProd.size(); x++){
+             System.out.println("listaSQL antes do remove: "+listaSQL);
+            System.out.println("lista fora do if: "+ListaProd);
+            String valor = String.valueOf(jTable_teste.getValueAt(linha,0));
+            ((DefaultTableModel) jTable_teste.getModel()).removeRow(jTable_teste.getSelectedRow());
+            for(int x=0; x<contador; x++){
                 if(ListaProd.get(x) == valor){
+                    System.out.println("item removido: "+(ListaProd.get(x)));
                     ListaProd.remove(x);
-                }
+                    System.out.println("lista depois do remove()"+ListaProd);
+                }else
+                    listaSQL = ListaProd.get(x)+"," ;
+                
+          
+            System.out.println("listaSQl depois do remove"+listaSQL);
             }
-            System.out.println(ListaProd);
-            JOptionPane.showMessageDialog(null, "produto adicionado com sucesso");
-           
-            contador++ ;
-        }
-    }//GEN-LAST:event_jTable_listaMouseClicked
+         
+             contador-- ;
+         }
+    }//GEN-LAST:event_jTable_testeMouseClicked
 
     private void jComboBox_cidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_cidadeActionPerformed
-        
-                        cidadeb = (String) jComboBox_cidade.getSelectedItem();
+                              cidadeb = (String) jComboBox_cidade.getSelectedItem();
                       int index = jComboBox_cidade.getSelectedIndex();
-//                   //  for(int x=0;x<=i-1;x++)
-//                   System.out.println("index cidade: "+index);
-//                     if( index > 0 && count >1){
-//                         System.out.println("dentro do if cidade");
-//                        jComboBox_bairro.removeAllItems();
-//                        // jComboBox_bairro.removeItemAt(0);
-//                         
-//                   }   
-                    
+           
                          if (index>0){  
                     
             try {
@@ -563,30 +557,14 @@ public class Testebusca extends javax.swing.JFrame {
                         count++;
                         System.out.println("count cidade: "+count);
                          }
+
     }//GEN-LAST:event_jComboBox_cidadeActionPerformed
-public void PreencherTabelaLista(String id, String descricao){
-   
-       
-        String [] Colunas = new String[]{"Codigo","Descrição"};
-   
-     
-                  dados1.add(new Object[]{id, descricao }) ;
-             
-       
-       
-           
-        ModeloTabela modelo = new ModeloTabela(dados1, Colunas);
-        jTable_lista.setModel(modelo);
-        jTable_lista.getColumnModel().getColumn(0).setPreferredWidth(93);
-        jTable_lista.getColumnModel().getColumn(0).setResizable(false);
-        jTable_lista.getColumnModel().getColumn(1).setPreferredWidth(265);
-        jTable_lista.getColumnModel().getColumn(1).setResizable(false);
-   
-     
-        jTable_lista.getTableHeader().setReorderingAllowed(false);
-        jTable_lista.setAutoResizeMode(jTable_lista.AUTO_RESIZE_OFF);
-        jTable_lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    }
+
+    private void jTable_vendaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_vendaMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable_vendaMouseEntered
+
+
     public void PreencherTabela() {
         
     
@@ -594,7 +572,7 @@ public void PreencherTabelaLista(String id, String descricao){
         
         String [] Colunas = new String[]{"Codigo","Descrição"};
     
-       
+        
         try {
              stmt1 = con1.prepareStatement("select * from lista WHERE descricao like '"+ jTextField_desc_pesq.getText().trim() +"%'");
                rs1 = stmt1.executeQuery();
@@ -612,9 +590,9 @@ public void PreencherTabelaLista(String id, String descricao){
             
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTable_venda.setModel(modelo);
-        jTable_venda.getColumnModel().getColumn(0).setPreferredWidth(120);
+        jTable_venda.getColumnModel().getColumn(0).setPreferredWidth(73);
         jTable_venda.getColumnModel().getColumn(0).setResizable(false);
-        jTable_venda.getColumnModel().getColumn(1).setPreferredWidth(265);
+        jTable_venda.getColumnModel().getColumn(1).setPreferredWidth(245);
         jTable_venda.getColumnModel().getColumn(1).setResizable(false);
     
      
@@ -623,20 +601,12 @@ public void PreencherTabelaLista(String id, String descricao){
         jTable_venda.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
    
-    
-              
-    
     public void ApagaTabela(){
       String [] Colunas = new String[]{"Codigo","Descrição"};
     
        
          ArrayList dados = new ArrayList();
-                 
-             
          
-         
-        
-            
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTable_venda.setModel(modelo);
         jTable_venda.getColumnModel().getColumn(0).setPreferredWidth(120);
@@ -675,9 +645,6 @@ public void PreencherTabelaLista(String id, String descricao){
             java.util.logging.Logger.getLogger(Testebusca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -689,7 +656,6 @@ public void PreencherTabelaLista(String id, String descricao){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_buscar;
-    private javax.swing.JButton jButton_teste;
     private javax.swing.JComboBox<String> jComboBox_bairro;
     private javax.swing.JComboBox<String> jComboBox_cidade;
     private javax.swing.JComboBox<String> jComboBox_estado;
@@ -697,8 +663,8 @@ public void PreencherTabelaLista(String id, String descricao){
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable_lista;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable_teste;
     private javax.swing.JTable jTable_venda;
     private javax.swing.JTextField jTextField_desc_pesq;
     private javax.swing.JTextField jTextField_resultado;
