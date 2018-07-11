@@ -48,7 +48,7 @@ public class CadastroProduto extends javax.swing.JFrame {
          // private  CadastroProduto cp = new CadastroProduto();
       
            public void recebe(String recebe){
-               System.out.println("castro produto");
+               System.out.println("cadastro produto");
                System.out.println(recebe); 
                teste = recebe ;
                System.out.println(teste);

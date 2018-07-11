@@ -318,7 +318,7 @@ public class Testebusca extends javax.swing.JFrame {
 
     private void jTable_vendaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_vendaMouseClicked
         if (evt.getClickCount() == 2) {
-                   int linha = jTable_venda.getSelectedRow();
+            int linha = jTable_venda.getSelectedRow();
             int coluna = linha; // jTable_venda.getSelectedColumn();
             String valor = String.valueOf(jTable_venda.getValueAt(linha,0));
             ListaProd.add(valor);
